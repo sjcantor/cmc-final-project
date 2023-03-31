@@ -17,7 +17,8 @@ def change_framerate(input_video_path, fps):
     return cap
 
 if __name__ == '__main__':
-    test_input = '../data/test_clip/test.mp4'
+    DIR = '/Users/sam/upf/thesis/thesis-testing'
+    test_input = os.path.join(DIR, 'data/test_clip/test.mp4')
 
     cap_before = cv2.VideoCapture(test_input)
     fps_before = int(cap_before.get(cv2.CAP_PROP_FPS))

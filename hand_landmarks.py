@@ -65,7 +65,7 @@ def get_input_from_video_file(video_file, DEMO=False, clip_length=10):
     total_frames_count = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
 
     # Fingertips data
-    dim0 = int(total_frames_count / 10) + 1 # will delete the last one later...
+    dim0 = int(total_frames_count / clip_length) + 1 # will delete the last one later...
     dim1 = clip_length # TODO make sure this still works if you add cliplength*fps
     fingers_dim2 = 10 # number of fingers we're tracking
     fingertips = np.zeros((dim0, dim1, fingers_dim2))

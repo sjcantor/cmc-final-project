@@ -88,7 +88,7 @@ if __name__ == '__main__':
     print('tracking')
     output_path = track()
     print('parsing video')
-    x = get_input_from_video_file(output_path, DEMO=True, clip_length=20)
+    x = get_input_from_video_file(output_path, DEMO=True, clip_length=10)
     print('predicting')
     pred = test_lstm_model(x=x)
 
@@ -102,7 +102,8 @@ if __name__ == '__main__':
     im = ax.imshow(pred.T)
     plt.show()
 
-    print('saving to midi')
-    binary_array_to_midi(pred, 'live_demo.mid')
+    midi_name = 'live_demo.mid'
+    print('saving to midi: {midi_name}')
+    binary_array_to_midi(pred, midi_name)
     print('done')
     

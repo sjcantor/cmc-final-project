@@ -26,7 +26,7 @@ def test_lstm_model(model_file='model.h5', x=None, threshold=0.5):
     # y_pred_binary = np.where(y_pred >= threshold, 1, 0)
 
     # Convert back to velocity [0-127]
-    y_pred_vel = y_pred*127
+    y_pred_vel = y_pred
 
     # Flatten the first two dimensions of the binary predictions
     y_pred_flat = y_pred_vel.reshape(-1, y_pred_vel.shape[-1])

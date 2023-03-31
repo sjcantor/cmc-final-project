@@ -178,9 +178,6 @@ def track_video(input_video_file, downsample, clip_length, midi, output_dir):
 
             # TODO - Right now there is no overlap
 
-
-
-            # frame += 1
     cap.release()
     print('cap released')
 
@@ -197,10 +194,12 @@ def track_video(input_video_file, downsample, clip_length, midi, output_dir):
 
 def create_dataset(downsample, output_dir, clip_length):
 
-    FULL_PLAYLIST = '../data/full_playlist/trimmed_videos'
+    DIR = '/Users/sam/upf/thesis/thesis-testing'
+
+    FULL_PLAYLIST = os.path.join(DIR, 'data/full_playlist/trimmed_videos')
     if output_dir is None:
-        output_dir = '../data/full_playlist/only_hands'
-    MIDI_DIR = '../data/midis'
+        output_dir = os.path.join(DIR, 'data/full_playlist/only_hands')
+    MIDI_DIR = os.path.join(DIR, 'data/midis')
 
     # Match dimensions with video numpy arrays
     dim0 = 1 # will concatenate to this dimension then later remove the first row of zeros
@@ -252,7 +251,6 @@ def create_dataset(downsample, output_dir, clip_length):
 
 parser = argparse.ArgumentParser()
 
-default_video = '../data/test_clip/ballade-trimmed.mp4'
 parser.add_argument('-d', '--downsample', default=10, help='downsample to given fps')
 parser.add_argument('-o', '--output_dir', default=None, help='output folder to save video(s)')
 parser.add_argument('-c', '--clip_length', default=10, help='separate videos into clips of c seconds')

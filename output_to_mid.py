@@ -1,5 +1,6 @@
 import mido
 import numpy as np
+import pdb
 
 def binary_array_to_midi(binary_array, filename):
     print(f'input size: {binary_array.shape}')
@@ -21,6 +22,7 @@ def binary_array_to_midi(binary_array, filename):
             elif value == 0:
                 note_off = mido.Message('note_off', note=note+21, velocity=0, time=time)
                 track.append(note_off)
+
 
     # Save the MIDI file
     mid.save(filename)

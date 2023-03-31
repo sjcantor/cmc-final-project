@@ -3,9 +3,13 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import LSTM, Dense, Bidirectional
 from tensorflow.keras.callbacks import ModelCheckpoint
 from sklearn.model_selection import train_test_split
+import matplotlib.pyplot as plt
+
+loss = []
+accuracy = []
 
 def train_lstm_model(x_train_file='x_train.npy', y_train_file='y_train.npy',
-                     epochs=10, batch_size=32, model_file='model.h5'):
+                     epochs=100, batch_size=32, model_file='model.h5', clip_length=10):
 
     # Load the data
     X = np.load(x_train_file)
@@ -25,7 +29,7 @@ def train_lstm_model(x_train_file='x_train.npy', y_train_file='y_train.npy',
 
     # Define the model architecture
     model = Sequential()
-    model.add(Bidirectional(LSTM(64, return_sequences=True), input_shape=(20, 10)))
+    model.add(Bidirectional(LSTM(64, return_sequences=True), input_shape=(clip_length, 10)))
     model.add(LSTM(64, return_sequences=True))
     model.add(LSTM(64, return_sequences=True))
     model.add(LSTM(64, return_sequences=True))
@@ -39,8 +43,11 @@ def train_lstm_model(x_train_file='x_train.npy', y_train_file='y_train.npy',
                                  save_best_only=True, mode='min')
 
     # Train the model
-    model.fit(x_train, y_train, epochs=epochs, batch_size=batch_size,
+    history = model.fit(x_train, y_train, epochs=epochs, batch_size=batch_size,
               validation_data=(x_val, y_val), callbacks=[checkpoint])
+    
+    loss.append(history.history['loss'])
+    accuracy.append(history.history['accuracy'])
 
     # Return the trained model
     return model
@@ -48,3 +55,19 @@ def train_lstm_model(x_train_file='x_train.npy', y_train_file='y_train.npy',
 if __name__ == '__main__':
     print('Training LSTM model...')
     train_lstm_model('./fingertips.npy', './midiroll.npy')
+
+    # Plot the loss
+    plt.plot(loss)
+    plt.title('Model Loss')
+    plt.xlabel('Epoch')
+    plt.ylabel('Loss')
+    plt.savefig('loss.png')
+    plt.show()
+
+    # Plot the accuracy
+    plt.plot(accuracy)
+    plt.title('Model Accuracy')
+    plt.xlabel('Epoch')
+    plt.ylabel('Accuracy')
+    plt.savefig('accuracy.png')
+    plt.show()
